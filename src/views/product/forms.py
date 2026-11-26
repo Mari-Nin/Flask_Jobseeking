@@ -9,7 +9,7 @@ class IpekForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     price = DecimalField('Price', validators=[DataRequired()])
     stock = IntegerField('quantity', validators=[DataRequired()]) 
-    img = FileField("Image",validators=[FileAllowed(['jpg', 'png', 'jpeg'],)])
+    img = FileField("Image",validators=[FileAllowed(['jpg', 'png', 'jpeg','avif','webp'],)])
     
 
     submit = SubmitField('Add')
