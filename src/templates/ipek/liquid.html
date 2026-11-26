@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import render_ipek with context %}
+
+{% block main %}
+<div class="container my-2">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category if category != 'message' else 'info' }} py-1 mb-2 small" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endwith %}
+</div>
+
+<main class="container mb-4">
+    <h4 class="fw-bold mt-2 mb-3 text-dark">{{ title }}</h4>
+
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3">
+        {% if liquid_stocks %}
+        {% for liquid in liquid_stocks %}
+        {{ render_ipek(liquid) }}
+        {% endfor %}
+
+        {% else %}
+        <p class="fs-5 fw-bold" style="color: crimson;">Product not found</p>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

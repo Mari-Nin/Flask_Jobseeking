@@ -1,0 +1,73 @@
+{% from 'macros.html' import nav_link with context%}
+
+
+<nav class="navbar navbar-expand-lg mb-3 fw-bold" style="background-color: #6f42c1;" data-bs-theme="dark">
+
+  <div class="container-fluid">
+
+    <button class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarTogglerDemo03"
+            aria-controls="navbarTogglerDemo03"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+        {% if current_user.is_authenticated and current_user.is_admin %}
+            {{ nav_link('main.index','Ipekyol') }}
+            {{ nav_link('ipek.all_ipeks','Ipeks') }}
+            {{ nav_link('ipek.create','Create') }}   
+            {{ nav_link('login.logout','Logout') }}
+            {{ nav_link('ipek.liquid','Liquid stocks') }}
+      
+        {% elif current_user.is_authenticated %}
+            {{ nav_link('main.index','Ipekyol') }}
+            {{ nav_link('ipek.all_ipeks','Ipeks') }}
+            {{ nav_link('ipek.all_ipeks','Shop') }}
+            {{ nav_link('login.logout','Logout') }}
+
+        {% else %}
+            {{ nav_link('main.index','Ipekyol') }}
+            {{ nav_link('ipek.all_ipeks','Ipeks') }}
+            {{ nav_link('login.login','Shop') }}
+            {{ nav_link('register.register','Register') }}
+            {{ nav_link('login.login','Login') }}
+            
+        {% endif %}
+
+  </ul>
+
+      <form class="d-flex"
+             
+               role="search" method='GET' action="{{ url_for('ipek.all_ipeks') }}">
+
+          <select class="form-select me-2" name="search_by">
+                  <option value="name">Search by name</option>
+                  <option value="category">Search by category</option>
+                  <option value="all">All products</option>
+          </select>
+               <input class="form-control me-2"
+               type="search"
+               name="search"
+               placeholder="Search"
+               aria-label="Search">
+
+        <button class="btn btn-outline-dark" type="submit">
+          Search
+          
+        </button>
+        
+      </form>
+
+    </div>
+  </div>
+
+</nav>
+    

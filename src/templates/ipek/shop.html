@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+
+
+<main class="m-2 p-3 shadow">
+    <form method="post" enctype="multipart/form-data">
+        {{ form.hidden_tag()}}
+
+
+
+        <div class="mb-3">
+            {{ form.id.label(class='form-label') }}
+            {{ form.id(class = "form-control",disabled=true) }}
+        </div>
+        <div class="mb-3">
+            {{ form.name.label(class='form-label') }}
+            {{ form.name(class = "form-control",disabled=true) }}
+
+            {% if form.name.errors %}
+            <div class="text-danger">
+                {% for error in form.name.errors %}
+                <small>{{ error }}</small><br>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            {{ form.price.label(class='form-label') }}
+            {{ form.price(class = "form-control",disabled=true) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.stock.label(class='form-label') }}
+            {{ form.stock(class = "form-control",disabled=true) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.quantity.label(class='form-label') }}
+            {{ form.quantity(class = "form-control") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.submit(class = "btn btn-dark") }}
+            <a href="{{ url_for('ipek.all_ipeks') }}" class="btn btn-danger">Back</a>
+        </div>
+
+    </form>
+</main>
+
+{%if success_shopping==True %}
+<div class="alert alert-success mt-3" role="alert">
+    Successful Purchase ...
+</div>
+<script>
+    setTimeout(function () {
+        window.location.href = "{{ url_for('ipek.all_ipeks') }}";
+    }, 2000);
+</script>
+
+{% elif success_shopping==False %}
+<div class="alert alert-danger mt-3" role="alert">
+    Shopping unsuccessful! ...
+</div>
+<script>
+    setTimeout(function () {
+        window.location.href = "{{ url_for('ipek.all_ipeks') }}";
+    }, 2000);
+</script>
+
+{% endif %}
+{% endblock%}

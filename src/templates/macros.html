@@ -1,0 +1,138 @@
+{% macro render_ipek(ipek) %}
+<div class="col">
+
+  <div class="card h-100 shadow-sm" style="border: 1.5px solid #d7bde2; border-radius: 8px;">
+
+    <a href="{{ url_for('ipek.ipek',id=ipek.id) }}">
+      <img src="{{ ipek.img_url }}" class="card-img-top"
+        style="height: 160px; object-fit: cover; border-top-left-radius: 8px; border-top-right-radius: 8px;"
+        alt="{{ ipek.name }}">
+    </a>
+
+
+    <div class="card-body p-2 d-flex flex-column">
+      <p class="card-text fw-bold mb-1" style="font-size: 0.85rem;">{{ ipek.name }}</p>
+      <p class="card-text text-muted mb-1" style="font-size: 0.75rem;">Category: {{ ipek.category.name }}</p>
+      <p class="card-text mb-1" style="font-size: 0.8rem;">Price: <span class="fw-semibold">{{ ipek.price }} GEL</span>
+      </p>
+      <p class="card-text text-secondary mb-1" style="font-size: 0.75rem;">In stock: {{ ipek.stock }}</p>
+
+      {% if ipek.stock is not none and ipek.stock >= 20 %}
+      {% set status, color = "Available", "text-success" %}
+      {% elif ipek.stock >= 5 %}
+      {% set status, color = "Low stock", "text-warning" %}
+      {% elif ipek.stock >= 1 %}
+      {% set status, color = "Last units", "text-danger" %}
+      {% else %}
+      {% set status, color = "Out of stock", "text-secondary" %}
+      {% endif %}
+
+      <p class="{{ color }} fw-bold mb-2" style="font-size: 0.75rem;">{{ status }}</p>
+
+
+      <div class="mt-auto d-flex flex-wrap gap-1">
+       
+        {% if current_user.is_authenticated and current_user.is_admin %}
+          <a href="{{ url_for('ipek.ipek', id=ipek.id) }}" class="btn btn-danger"
+          style="font-size: 11px; padding: 3px 6px;">
+          Visit ipek
+        </a>
+
+        <a href="{{ url_for('ipek.shop', id=ipek.id) }}" class="btn btn-success"
+          style="font-size: 11px; padding: 3px 6px;">
+          Shop
+          </a>
+        <a href="{{ url_for('ipek.create') }}" class="btn btn-success"
+          style="font-size: 11px; padding: 3px 6px;">
+          Create
+        </a>
+
+        <a href="{{ url_for('ipek.update', id=ipek.id) }}" class="btn btn-success"
+          style="font-size: 11px; padding: 3px 6px;">
+          Update
+        </a>
+
+        <a href="{{ url_for('ipek.liquid') }}" class="btn btn-success" style="font-size: 11px; padding: 3px 6px;">
+          Liquid stocks
+        </a>
+
+        <a href="{{ url_for('ipek.delete', id=ipek.id) }}" class="btn btn-danger"
+          style="font-size: 11px; padding: 3px 6px;"
+          onclick="return confirm('Are you sure you want to delete this item?')">
+          Delete
+        </a>
+ 
+         {% elif current_user.is_authenticated %}
+
+        <a href="{{ url_for('ipek.ipek', id=ipek.id) }}" class="btn btn-danger"
+          style="font-size: 11px; padding: 3px 6px;">
+          Visit ipek
+        </a>
+
+        <a href="{{ url_for('ipek.shop', id=ipek.id) }}" class="btn btn-success"
+          style="font-size: 11px; padding: 3px 6px;">
+          Shop
+        </a>
+        {% else %}
+        <a href="{{ url_for('ipek.ipek', id=ipek.id) }}" class="btn btn-danger"
+          style="font-size: 11px; padding: 3px 6px;">
+          Visit ipek
+        </a>
+
+        <a href="{{ url_for('ipek.shop', id=ipek.id) }}" class="btn btn-success"
+          style="font-size: 11px; padding: 3px 6px;">
+          Shop
+        </a>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
+
+{% macro nav_link(route, name) %}
+<li class="nav-item">
+  <a class="nav-link {% if request.path == url_for(route) %}active{% endif %}" aria-current="page"
+    href="{{ url_for(route) }}">
+    {{ name }}
+  </a>
+</li>
+{% endmacro %}
+
+{% macro render_card() %}
+
+<div class="card ms-2 h-100 border-0 shadow-sm rounded-4" style="background-color:rgb(232, 220, 232)">
+  <div class="card-body">
+    <h4 class="card-title text-center fw-bold" style="color: #6f42c1;">Wear Your Worth</h4>
+    <p class="card-text">
+      Choose style, not just clothes. A catchy slogan for clothing brand ideas reflects the identity and unique values
+      of a brand.
+    </p>
+
+  </div>
+
+
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item" style="background-color:aquamarine;">Choose style</li>
+    <li class="list-group-item" style="background-color: rgb(157, 237, 78);">Be different</li>
+    <li class="list-group-item" style="background-color: chartreuse;">Feel comfortable</li>
+  </ul> <br>
+
+  <div class="card-body d-flex flex-column gap-2">
+
+    {% if current_user.is_authenticated %}
+    <a href="{{ url_for('ipek.all_ipeks') }}" class="btn btn-outline-secondary rounded-3">All Products</a>
+    <a href="{{ url_for('login.login') }}" class="btn btn-success">Shopping</a>
+    <a href="{{ url_for('login.logout') }}" class="btn btn-outline-danger rounded-3">Logout</a>
+    {% else %}
+    <a href="{{ url_for('ipek.all_ipeks') }}" class="btn btn-outline-secondary rounded-3">All Products</a>
+    <a href="{{ url_for('login.login') }}" class="btn btn-success">For shopping please login</a>
+    <a href="{{ url_for('register.register') }}" class="btn btn-outline-primary rounded-3">Register</a>
+    {% endif %}
+
+  </div>
+
+</div>
+{% endmacro %}

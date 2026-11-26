@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import render_card with context %}
+
+{% block main %}
+
+<main class="m-2 p-3 shadow">
+    <div class="row g-3">
+        <div class="col-md-3">
+            {{ render_card() }}
+        </div>
+        <div class="col-md-9">
+            <form method="post">
+
+                {% for errors in form.errors.values() %}
+                {% for error in errors %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ error }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+                {% endfor %}
+
+                {{ form.hidden_tag() }}
+
+                <div class="mb-3">
+                    {{ form.username.label() }}
+                    {{ form.username(class="form-control") }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.password.label() }}
+                    {{ form.password(class="form-control") }}
+                    {% if form.password.errors %}
+                    <div class="text-danger">
+                        {% for error in form.password.errors %}
+                        <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.password2.label(class="form-label") }}
+                    {{ form.password2(class="form-control") }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.countries.label(class="form-label") }}
+                    {{ form.countries(class="form-control") }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.remember_me(class="form-check-input") }}
+                    {{ form.remember_me.label(class="form-check-label") }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.submit(class="btn btn-dark") }}
+                </div>
+
+            </form>
+        </div>
+
+
+
+    </div>
+</main>
+
+{% endblock %}

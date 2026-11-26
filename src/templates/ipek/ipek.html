@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import render_ipek with context %}
+
+{% block main %}
+<main class="container my-4">
+
+  <div class="card mb-3 mx-auto" style="max-width: 800px;">
+    <div class="row g-0">
+      <div class="col-md-7">
+        <img src="{{ ipek.img_url }}" class="img-fluid rounded-start w-100" alt="{{ ipek.name }}">
+      </div>
+
+      <div class="col-md-5 d-flex align-items-center" style="background-color: beige;">
+        <div class="card-body">
+          <p class="text-muted mb-1">ID: #{{ ipek.id }}</p>
+          <h4 class="card-title fw-bold">{{ ipek.name }}</h4>
+          <h5 class="card-title text-success my-2 fs-6">Category: {{ ipek.category.name }}</h5>
+          <h5 class="card-title text-success my-2">{{ ipek.price }} GEL</h5>
+
+          <p class="card-text mb-1">
+            <strong>In stock:</strong> {{ ipek.stock }} unity
+          </p>
+
+          {% if ipek.stock >= 20 %}
+          {% set status, color = "Available", "text-success" %}
+          {% elif ipek.stock >= 5 %}
+          {% set status, color = "Low stock", "text-warning" %}
+          {% elif ipek.stock >= 1 %}
+          {% set status, color = "Last units", "text-danger" %}
+          {% else %}
+          {% set status, color = "Out of stock", "text-secondary" %}
+          {% endif %}
+
+
+          <p class="{{ color }} fw-bold mb-3">{{ status }}</p>
+
+          <a href="{{ url_for('ipek.all_ipeks') }}" class="btn btn-outline-dark btn-sm mt-2"
+            style="background-color: darkseagreen;">Go back</a>
+          <a href="{{ url_for('ipek.shop', id=ipek.id) }}" class="btn btn-outline-dark btn-sm mt-2 "
+            style="background-color:slateblue;"> Shop</a>
+
+
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+{% endblock %}
